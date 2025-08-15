@@ -2,10 +2,10 @@ import React from 'react';
 import LoginForm from '../components/LoginForm';
 import { translations } from '../constants/translations';
 
-const LoginPage = ({ onLogin, onSwitchToSignup, language, setLanguage }) => {
+const LoginPage = ({ onLogin, onSwitchToSignup, language, setLanguage, showMessageBox }) => {
     const handleLogin = (email, password) => {
         if (email.trim() === '' || password.trim() === '') {
-            alert(translations[language].enterEmailPassword);
+            showMessageBox(translations[language].enterEmailPassword, 'error');
             return;
         }
         onLogin(email, password);
