@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ChatInterface from '../components/ChatInterface';
 import { translations } from '../constants/translations';
 
-const ChatPage = ({ language, setLanguage, userName }) => {
+const ChatPage = ({ language, setLanguage, userName, showMessageBox }) => {
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSuggesting, setIsSuggesting] = useState(false);
@@ -28,7 +28,7 @@ const ChatPage = ({ language, setLanguage, userName }) => {
     const handleSuggestTopics = async () => {
         const lastUserMessage = messages.filter(msg => msg.sender === 'user').pop();
         if (!lastUserMessage) {
-            alert(translations[language].noPreviousMessage);
+            showMessageBox(translations[language].noPreviousMessage, 'error');
             return;
         }
 
@@ -43,7 +43,7 @@ const ChatPage = ({ language, setLanguage, userName }) => {
 
     const handleSummarizeChat = async () => {
         if (messages.length === 0) {
-            alert(translations[language].noChatToSummarize);
+            showMessageBox(translations[language].noChatToSummarize, 'error');
             return;
         }
 
@@ -56,7 +56,7 @@ const ChatPage = ({ language, setLanguage, userName }) => {
     };
 
     const handleReadAloud = async (text) => {
-        alert(translations[language].readingAloud);
+        showMessageBox(translations[language].readingAloud, 'success');
         // In a real implementation, this would use text-to-speech API
         console.log('Reading aloud:', text);
     };
