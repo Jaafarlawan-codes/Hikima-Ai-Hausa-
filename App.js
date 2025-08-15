@@ -87,13 +87,398 @@ const translations = {
     }
 };
 
+// Login Component
+const LoginForm = ({ onLogin, onSwitchToSignup, language, setLanguage }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onLogin(email, password);
+    };
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+            <div className="max-w-md w-full">
+                <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                    <div className="text-center mb-8">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
+                            <User className="w-8 h-8 text-white" />
+                        </div>
+                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                            {translations[language].welcomeBack}
+                        </h1>
+                        <p className="text-gray-600">
+                            {translations[language].signInToAccount}
+                        </p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder={translations[language].emailPlaceholder}
+                                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder={translations[language].passwordPlaceholder}
+                                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 flex items-center justify-center"
+                        >
+                            <LogIn className="w-5 h-5 mr-2" />
+                            {translations[language].signIn}
+                        </button>
+                    </form>
+
+                    <div className="mt-6 text-center">
+                        <p className="text-gray-600">
+                            {translations[language].noAccount}{' '}
+                            <button
+                                onClick={onSwitchToSignup}
+                                className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
+                            >
+                                {translations[language].signUp}
+                            </button>
+                        </p>
+                    </div>
+
+                    <div className="mt-6 flex justify-center">
+                        <button
+                            onClick={() => setLanguage(language === 'en' ? 'ha' : 'en')}
+                            className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
+                        >
+                            <Globe className="w-4 h-4 mr-2" />
+                            {translations[language].languageToggle}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// Signup Component
+const SignupForm = ({ onSignup, onSwitchToLogin, language, setLanguage }) => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSignup(name, email, password);
+    };
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+            <div className="max-w-md w-full">
+                <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                    <div className="text-center mb-8">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
+                            <User className="w-8 h-8 text-white" />
+                        </div>
+                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                            {translations[language].createAccount}
+                        </h1>
+                        <p className="text-gray-600">
+                            {translations[language].getStarted}
+                        </p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder={translations[language].namePlaceholder}
+                                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder={translations[language].emailPlaceholder}
+                                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder={translations[language].passwordPlaceholder}
+                                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 flex items-center justify-center"
+                        >
+                            <User className="w-5 h-5 mr-2" />
+                            {translations[language].signUp}
+                        </button>
+                    </form>
+
+                    <div className="mt-6 text-center">
+                        <p className="text-gray-600">
+                            {translations[language].alreadyAccount}{' '}
+                            <button
+                                onClick={onSwitchToLogin}
+                                className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
+                            >
+                                {translations[language].signIn}
+                            </button>
+                        </p>
+                    </div>
+
+                    <div className="mt-6 flex justify-center">
+                        <button
+                            onClick={() => setLanguage(language === 'en' ? 'ha' : 'en')}
+                            className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
+                        >
+                            <Globe className="w-4 h-4 mr-2" />
+                            {translations[language].languageToggle}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// Chat Component
+const ChatInterface = ({ 
+    messages, 
+    onSendMessage, 
+    onSuggestTopics, 
+    onSummarizeChat, 
+    onReadAloud,
+    isLoading, 
+    isSuggesting, 
+    isSummarizing,
+    language, 
+    setLanguage, 
+    userName 
+}) => {
+    const [inputMessage, setInputMessage] = useState('');
+    const [showChatHistory, setShowChatHistory] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (inputMessage.trim()) {
+            onSendMessage(inputMessage);
+            setInputMessage('');
+        }
+    };
+
+    const renderMarkdown = (text, isBotMessage) => {
+        if (!text) return null;
+        let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\* (.*)/g, '<li>$1</li>');
+        if (html.includes('<li>')) {
+            html = `<ul>${html}</ul>`;
+        }
+
+        return (
+            <div className="flex items-start space-x-3">
+                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                    isBotMessage ? 'bg-gradient-to-r from-blue-500 to-purple-600' : 'bg-gray-300'
+                }`}>
+                    {isBotMessage ? (
+                        <Sparkles className="w-4 h-4 text-white" />
+                    ) : (
+                        <User className="w-4 h-4 text-gray-600" />
+                    )}
+                </div>
+                <div className="flex-1 min-w-0">
+                    <div 
+                        className={`inline-block p-3 rounded-lg max-w-full ${
+                            isBotMessage 
+                                ? 'bg-gray-100 text-gray-800' 
+                                : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
+                        }`}
+                        dangerouslySetInnerHTML={{ __html: html }}
+                    />
+                    {isBotMessage && (
+                        <button
+                            onClick={() => onReadAloud(text)}
+                            className="mt-2 text-xs text-gray-500 hover:text-blue-600 flex items-center transition-colors"
+                        >
+                            <Volume2 className="w-3 h-3 mr-1" />
+                            {translations[language].readAloud}
+                        </button>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-50 flex flex-col">
+            {/* Header */}
+            <div className="bg-white shadow-sm border-b border-gray-200 p-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <Sparkles className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                            <h1 className="text-xl font-bold text-gray-900">
+                                {translations[language].appName}
+                            </h1>
+                            <p className="text-sm text-gray-600">
+                                {translations[language].welcomeChat(userName)}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <button
+                            onClick={() => setShowChatHistory(!showChatHistory)}
+                            className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                        >
+                            <History className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={() => setLanguage(language === 'en' ? 'ha' : 'en')}
+                            className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                        >
+                            <Globe className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {messages.length === 0 ? (
+                    <div className="text-center py-12">
+                        <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Sparkles className="w-8 h-8 text-white" />
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            {translations[language].welcomeChat(userName)}
+                        </h3>
+                        <p className="text-gray-600">
+                            {translations[language].chatPrompt}
+                        </p>
+                    </div>
+                ) : (
+                    messages.map((message, index) => (
+                        <div key={index}>
+                            {renderMarkdown(message.text, message.sender === 'bot')}
+                        </div>
+                    ))
+                )}
+                
+                {isLoading && (
+                    <div className="flex items-center space-x-3">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                            <Sparkles className="w-4 h-4 text-white" />
+                        </div>
+                        <div className="bg-gray-100 p-3 rounded-lg">
+                            <Loader2 className="w-5 h-5 animate-spin text-gray-600" />
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="p-4 bg-white border-t border-gray-200">
+                <div className="flex space-x-2 mb-4">
+                    <button
+                        onClick={onSuggestTopics}
+                        disabled={isSuggesting || messages.length === 0}
+                        className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    >
+                        {isSuggesting ? (
+                            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        ) : (
+                            <Sparkles className="w-4 h-4 mr-2" />
+                        )}
+                        {translations[language].suggestTopics}
+                    </button>
+                    <button
+                        onClick={onSummarizeChat}
+                        disabled={isSummarizing || messages.length === 0}
+                        className="flex-1 bg-gradient-to-r from-green-500 to-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:from-green-600 hover:to-teal-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    >
+                        {isSummarizing ? (
+                            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        ) : (
+                            <History className="w-4 h-4 mr-2" />
+                        )}
+                        {translations[language].summarizeChat}
+                    </button>
+                </div>
+
+                {/* Input Form */}
+                <form onSubmit={handleSubmit} className="flex space-x-2">
+                    <input
+                        type="text"
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        placeholder={translations[language].inputPlaceholder}
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        disabled={isLoading}
+                    />
+                    <button
+                        type="submit"
+                        disabled={isLoading || !inputMessage.trim()}
+                        className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <Send className="w-5 h-5" />
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+// Message Box Component
+const MessageBox = () => (
+    <div id="message-box" className="message-box fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full opacity-0">
+    </div>
+);
+
 export default function App() {
     const [currentPage, setCurrentPage] = useState('login');
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSuggesting, setIsSuggesting] = useState(false);
     const [isSummarizing, setIsSummarizing] = useState(false);
-    const [showChatHistory, setShowChatHistory] = useState(false);
     const [language, setLanguage] = useState('en');
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
@@ -102,9 +487,11 @@ export default function App() {
         const messageBox = document.getElementById('message-box');
         if (messageBox) {
             messageBox.textContent = message;
-            messageBox.className = `message-box show ${type}`;
+            messageBox.className = `message-box fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            } transform translate-x-0 opacity-100`;
             setTimeout(() => {
-                messageBox.className = 'message-box';
+                messageBox.className = 'message-box fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full opacity-0';
             }, 3000);
         }
     };
@@ -114,7 +501,7 @@ export default function App() {
             showMessageBox(translations[language].enterEmailPassword, 'error');
             return;
         }
-        setUserName('Guest'); // Default name for login
+        setUserName('Guest');
         setUserEmail(email);
         setCurrentPage('chatbot');
         showMessageBox(translations[language].loginSuccess, 'success');
@@ -137,54 +524,15 @@ export default function App() {
         setMessages(prevMessages => [...prevMessages, userMessage]);
         setIsLoading(true);
 
-        const prompt = message;
-        let retries = 0;
-        const maxRetries = 5;
-        let delay = 1000;
-
-        while (retries < maxRetries) {
-            try {
-                const chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                const payload = { contents: chatHistory };
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const botResponse = result.candidates[0].content.parts[0].text;
-                    setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: botResponse }]);
-                } else {
-                    console.error('Unexpected API response structure:', result);
-                    setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: translations[language].sorryResponse }]);
-                }
-                break;
-            } catch (error) {
-                console.error('API call failed:', error);
-                retries++;
-                if (retries < maxRetries) {
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2;
-                } else {
-                    setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: translations[language].apiError }]);
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        }
+        // Simulate API call with a mock response for demo purposes
+        setTimeout(() => {
+            const botResponse = {
+                sender: 'bot',
+                text: `Thank you for your question about "${message}". This is a demo response. In a real implementation, this would connect to an AI API to provide helpful information about technology and AI topics.`
+            };
+            setMessages(prevMessages => [...prevMessages, botResponse]);
+            setIsLoading(false);
+        }, 1500);
     };
 
     const handleSuggestTopics = async () => {
@@ -194,73 +542,13 @@ export default function App() {
             return;
         }
 
-        const suggestionMessage = { sender: 'bot', text: translations[language].generatingSuggestions };
-        setMessages(prevMessages => [...prevMessages, suggestionMessage]);
         setIsSuggesting(true);
-
-        let retries = 0;
-        const maxRetries = 5;
-        let delay = 1000;
-
-        while (retries < maxRetries) {
-            try {
-                const prompt = `The user is discussing the following topic: "${lastUserMessage.text}". Generate a JSON array of three related but distinct learning topic suggestions. The JSON should have a key 'suggestions' with an array of three strings. For example: {"suggestions": ["Topic 1", "Topic 2", "Topic 3"]}`;
-                const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-                const payload = {
-                    contents: chatHistory,
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        responseSchema: {
-                            type: "OBJECT",
-                            properties: {
-                                "suggestions": {
-                                    "type": "ARRAY",
-                                    "items": { "type": "STRING" }
-                                }
-                            }
-                        }
-                    }
-                };
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                const json = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                const parsedJson = JSON.parse(json);
-                const topics = parsedJson.suggestions;
-
-                setMessages(prevMessages => {
-                    const updatedMessages = prevMessages.filter(msg => msg.text !== translations[language].generatingSuggestions);
-                    const newBotMessage = { sender: 'bot', text: translations[language].suggestionPrompt(topics) };
-                    return [...updatedMessages, newBotMessage];
-                });
-                break;
-            } catch (error) {
-                console.error('API call for suggestions failed:', error);
-                retries++;
-                if (retries < maxRetries) {
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2;
-                } else {
-                    setMessages(prevMessages => {
-                        const updatedMessages = prevMessages.filter(msg => msg.text !== translations[language].generatingSuggestions);
-                        return [...updatedMessages, { sender: 'bot', text: translations[language].apiError }];
-                    });
-                }
-            } finally {
-                setIsSuggesting(false);
-            }
-        }
+        setTimeout(() => {
+            const topics = ['Machine Learning Basics', 'Web Development Trends', 'AI Ethics'];
+            const suggestionText = translations[language].suggestionPrompt(topics);
+            setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: suggestionText }]);
+            setIsSuggesting(false);
+        }, 1000);
     };
     
     const handleSummarizeChat = async () => {
@@ -269,180 +557,54 @@ export default function App() {
             return;
         }
 
-        const summaryMessage = { sender: 'bot', text: translations[language].generatingSummary };
-        setMessages(prevMessages => [...prevMessages, summaryMessage]);
         setIsSummarizing(true);
-
-        const chatHistoryText = messages.map(msg => `${msg.sender}: ${msg.text}`).join('\n');
-        const prompt = `Summarize the following chat conversation into key points:\n\n${chatHistoryText}`;
-
-        let retries = 0;
-        const maxRetries = 5;
-        let delay = 1000;
-
-        while (retries < maxRetries) {
-            try {
-                const chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                const payload = { contents: chatHistory };
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                const summary = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                setMessages(prevMessages => {
-                    const updatedMessages = prevMessages.filter(msg => msg.text !== translations[language].generatingSummary);
-                    const newBotMessage = { sender: 'bot', text: `**Summary:**\n${summary}` };
-                    return [...updatedMessages, newBotMessage];
-                });
-                break;
-            } catch (error) {
-                console.error('API call for summary failed:', error);
-                retries++;
-                if (retries < maxRetries) {
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2;
-                } else {
-                    setMessages(prevMessages => {
-                        const updatedMessages = prevMessages.filter(msg => msg.text !== translations[language].generatingSummary);
-                        return [...updatedMessages, { sender: 'bot', text: translations[language].apiError }];
-                    });
-                }
-            } finally {
-                setIsSummarizing(false);
-            }
-        }
+        setTimeout(() => {
+            const summary = "**Summary:**\nThis conversation covered various topics related to technology and AI learning. The user asked questions and received informative responses about different aspects of tech and artificial intelligence.";
+            setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: summary }]);
+            setIsSummarizing(false);
+        }, 1000);
     };
 
     const handleReadAloud = async (text) => {
         showMessageBox(translations[language].readingAloud, 'success');
-        const prompt = `Say in a friendly and informative tone: ${text}`;
-        
-        const base64ToArrayBuffer = (base64) => {
-            const binaryString = atob(base64);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            return bytes.buffer;
-        };
-    
-        const pcmToWav = (pcmData, sampleRate) => {
-            const dataLength = pcmData.length * 2;
-            const buffer = new ArrayBuffer(44 + dataLength);
-            const view = new DataView(buffer);
-            let offset = 0;
-        
-            const writeString = (str) => {
-                for (let i = 0; i < str.length; i++) {
-                    view.setUint8(offset++, str.charCodeAt(i));
-                }
-            };
-        
-            writeString('RIFF');
-            view.setUint32(offset, 36 + dataLength, true); offset += 4;
-            writeString('WAVE');
-            writeString('fmt ');
-            view.setUint32(offset, 16, true); offset += 4; // Sub-chunk 1 size
-            view.setUint16(offset, 1, true); offset += 2; // Audio format (PCM)
-            view.setUint16(offset, 1, true); offset += 2; // Num channels
-            view.setUint32(offset, sampleRate, true); offset += 4; // Sample rate
-            view.setUint32(offset, sampleRate * 2, true); offset += 4; // Byte rate
-            view.setUint16(offset, 2, true); offset += 2; // Block align
-            view.setUint16(offset, 16, true); offset += 2; // Bits per sample
-            writeString('data');
-            view.setUint32(offset, dataLength, true); offset += 4;
-        
-            const pcm16 = new Int16Array(buffer, offset);
-            pcm16.set(pcmData);
-        
-            return new Blob([buffer], { type: 'audio/wav' });
-        };
-    
-        let retries = 0;
-        const maxRetries = 5;
-        let delay = 1000;
-
-        while (retries < maxRetries) {
-            try {
-                const payload = {
-                    contents: [{
-                        parts: [{ text: prompt }]
-                    }],
-                    generationConfig: {
-                        responseModalities: ["AUDIO"],
-                        speechConfig: {
-                            voiceConfig: {
-                                prebuiltVoiceConfig: { voiceName: "Puck" }
-                            }
-                        }
-                    },
-                    model: "gemini-2.5-flash-preview-tts"
-                };
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                const part = result?.candidates?.[0]?.content?.parts?.[0];
-                const audioData = part?.inlineData?.data;
-                const mimeType = part?.inlineData?.mimeType;
-
-                if (audioData && mimeType && mimeType.startsWith("audio/")) {
-                    const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
-                    const pcmData = base64ToArrayBuffer(audioData);
-                    const pcm16 = new Int16Array(pcmData);
-                    const wavBlob = pcmToWav(pcm16, sampleRate);
-                    const audioUrl = URL.createObjectURL(wavBlob);
-                    
-                    const audio = new Audio(audioUrl);
-                    audio.play();
-                } else {
-                    showMessageBox("Failed to generate audio.", 'error');
-                }
-                break;
-            } catch (error) {
-                console.error('TTS API call failed:', error);
-                retries++;
-                if (retries < maxRetries) {
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2;
-                } else {
-                    showMessageBox(translations[language].apiError, 'error');
-                }
-            }
-        }
+        // In a real implementation, this would use text-to-speech API
+        console.log('Reading aloud:', text);
     };
-    
-    const renderMarkdown = (text, isBotMessage) => {
-        if (!text) return null;
-        let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\* (.*)/g, '<li>$1</li>');
-        if (html.includes('<li>')) {
-            html = `<ul>${html}</ul>`;
-        }
-    
-        return (
-            <div className="flex items-start">
-                <div className="flex-1" dangerously
+
+    return (
+        <div className="App">
+            <MessageBox />
+            {currentPage === 'login' && (
+                <LoginForm
+                    onLogin={handleLogin}
+                    onSwitchToSignup={() => setCurrentPage('signup')}
+                    language={language}
+                    setLanguage={setLanguage}
+                />
+            )}
+            {currentPage === 'signup' && (
+                <SignupForm
+                    onSignup={handleSignup}
+                    onSwitchToLogin={() => setCurrentPage('login')}
+                    language={language}
+                    setLanguage={setLanguage}
+                />
+            )}
+            {currentPage === 'chatbot' && (
+                <ChatInterface
+                    messages={messages}
+                    onSendMessage={handleSendMessage}
+                    onSuggestTopics={handleSuggestTopics}
+                    onSummarizeChat={handleSummarizeChat}
+                    onReadAloud={handleReadAloud}
+                    isLoading={isLoading}
+                    isSuggesting={isSuggesting}
+                    isSummarizing={isSummarizing}
+                    language={language}
+                    setLanguage={setLanguage}
+                    userName={userName}
+                />
+            )}
+        </div>
+    );
+}
