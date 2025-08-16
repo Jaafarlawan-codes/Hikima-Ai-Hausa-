@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ChatInterface from '../components/ChatInterface';
 import { translations } from '../constants/translations';
+import geminiService from '../services/geminiService';
 
 const ChatPage = ({ language, setLanguage, userName, showMessageBox }) => {
     const [messages, setMessages] = useState([]);
@@ -10,19 +11,29 @@ const ChatPage = ({ language, setLanguage, userName, showMessageBox }) => {
 
     const handleSendMessage = async (message) => {
         if (message.trim() === '') return;
+        
         const userMessage = { sender: 'user', text: message };
         setMessages(prevMessages => [...prevMessages, userMessage]);
         setIsLoading(true);
 
-        // Simulate API call with a mock response for demo purposes
-        setTimeout(() => {
+        try {
+            const response = await geminiService.generateResponse(message, messages);
             const botResponse = {
                 sender: 'bot',
-                text: `Thank you for your question about "${message}". This is a demo response. In a real implementation, this would connect to an AI API to provide helpful information about technology and AI topics.`
+                text: response
             };
             setMessages(prevMessages => [...prevMessages, botResponse]);
+        } catch (error) {
+            console.error('Error sending message:', error);
+            const errorResponse = {
+                sender: 'bot',
+                text: translations[language].apiError
+            };
+            setMessages(prevMessages => [...prevMessages, errorResponse]);
+            showMessageBox(translations[language].apiError, 'error');
+        } finally {
             setIsLoading(false);
-        }, 1500);
+        }
     };
 
     const handleSuggestTopics = async () => {
@@ -33,12 +44,15 @@ const ChatPage = ({ language, setLanguage, userName, showMessageBox }) => {
         }
 
         setIsSuggesting(true);
-        setTimeout(() => {
-            const topics = ['Machine Learning Basics', 'Web Development Trends', 'AI Ethics'];
-            const suggestionText = translations[language].suggestionPrompt(topics);
+        try {
+            const suggestionText = await geminiService.generateTopicSuggestions(messages);
             setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: suggestionText }]);
+        } catch (error) {
+            console.error('Error generating suggestions:', error);
+            showMessageBox(translations[language].apiError, 'error');
+        } finally {
             setIsSuggesting(false);
-        }, 1000);
+        }
     };
 
     const handleSummarizeChat = async () => {
@@ -48,17 +62,43 @@ const ChatPage = ({ language, setLanguage, userName, showMessageBox }) => {
         }
 
         setIsSummarizing(true);
-        setTimeout(() => {
-            const summary = "**Summary:**\nThis conversation covered various topics related to technology and AI learning. The user asked questions and received informative responses about different aspects of tech and artificial intelligence.";
+        try {
+            const summary = await geminiService.summarizeConversation(messages);
             setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: summary }]);
+        } catch (error) {
+            console.error('Error generating summary:', error);
+            showMessageBox(translations[language].apiError, 'error');
+        } finally {
             setIsSummarizing(false);
-        }, 1000);
+        }
     };
 
     const handleReadAloud = async (text) => {
-        showMessageBox(translations[language].readingAloud, 'success');
-        // In a real implementation, this would use text-to-speech API
-        console.log('Reading aloud:', text);
+        try {
+            // Check if browser supports speech synthesis
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                // Create speech utterance
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                
+                // Set language based on current language setting
+                utterance.lang = language === 'ha' ? 'ha-NG' : 'en-US';
+                
+                // Speak the text
+                window.speechSynthesis.speak(utterance);
+                showMessageBox(translations[language].readingAloud, 'success');
+            } else {
+                showMessageBox('Text-to-speech not supported in this browser', 'error');
+            }
+        } catch (error) {
+            console.error('Error with text-to-speech:', error);
+            showMessageBox('Error reading text aloud', 'error');
+        }
     };
 
     return (

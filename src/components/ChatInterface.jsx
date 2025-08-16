@@ -28,11 +28,30 @@ const ChatInterface = ({
 
     const renderMarkdown = (text, isBotMessage) => {
         if (!text) return null;
-        let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\* (.*)/g, '<li>$1</li>');
+        
+        // Enhanced markdown parsing
+        let html = text
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/`(.*?)`/g, '<code class="bg-gray-200 px-1 py-0.5 rounded text-sm">$1</code>')
+            .replace(/^### (.*$)/gm, '<h3 class="text-lg font-semibold mt-4 mb-2">$1</h3>')
+            .replace(/^## (.*$)/gm, '<h2 class="text-xl font-semibold mt-4 mb-2">$1</h2>')
+            .replace(/^# (.*$)/gm, '<h1 class="text-2xl font-bold mt-4 mb-2">$1</h1>')
+            .replace(/^\* (.*$)/gm, '<li class="ml-4">$1</li>')
+            .replace(/^\d+\. (.*$)/gm, '<li class="ml-4">$1</li>');
+        
+        // Wrap lists in ul tags
         if (html.includes('<li>')) {
-            html = `<ul>${html}</ul>`;
+            html = html.replace(/(<li.*?>.*?<\/li>)/gs, (match) => {
+                if (!match.includes('<ul>') && !match.includes('<ol>')) {
+                    return `<ul class="list-disc list-inside space-y-1 my-2">${match}</ul>`;
+                }
+                return match;
+            });
         }
+        
+        // Handle line breaks
+        html = html.replace(/\n/g, '<br>');
 
         return (
             <div className="flex items-start space-x-3">

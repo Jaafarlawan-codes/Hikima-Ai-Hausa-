@@ -33,6 +33,7 @@ body {
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -42,6 +43,12 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
 }
 
 /* Smooth animations */
@@ -102,6 +109,27 @@ input:focus {
   }
 }
 
+/* Enhanced markdown styles */
+.chat-message code {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+}
+
+.chat-message h1,
+.chat-message h2,
+.chat-message h3 {
+  color: inherit;
+  line-height: 1.4;
+}
+
+.chat-message ul {
+  margin: 0.5rem 0;
+}
+
+.chat-message li {
+  margin: 0.25rem 0;
+}
+
 /* Responsive design improvements */
 @media (max-width: 640px) {
   .chat-interface {
@@ -110,6 +138,10 @@ input:focus {
   
   .message-container {
     max-width: 85%;
+  }
+  
+  .chat-message {
+    font-size: 0.9rem;
   }
 }
 
