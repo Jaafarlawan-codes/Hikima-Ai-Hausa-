@@ -11,7 +11,7 @@ class GeminiService {
         }
         
         this.genAI = new GoogleGenerativeAI(apiKey);
-        this.model = this.genAI.getGenerativeModel({ model: "gemini-2.0-lite" });
+        this.model = this.genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
         
         // System prompt for the AI tutor
         this.systemPrompt = `You are an expert AI tutor specializing in technology and artificial intelligence education. Your role is to:
