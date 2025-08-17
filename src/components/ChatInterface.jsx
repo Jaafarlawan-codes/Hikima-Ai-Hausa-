@@ -54,29 +54,31 @@ const ChatInterface = ({
         html = html.replace(/\n/g, '<br>');
 
         return (
-            <div className="flex items-start space-x-3">
-                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                    isBotMessage ? 'bg-black' : 'bg-gray-200'
+            <div className="flex items-start space-x-4 chat-message">
+                <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-md ${
+                    isBotMessage 
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
+                        : 'bg-gradient-to-r from-gray-400 to-gray-600'
                 }`}>
                     {isBotMessage ? (
-                        <Sparkles className="w-4 h-4 text-white" />
+                        <Sparkles className="w-5 h-5 text-white" />
                     ) : (
-                        <User className="w-4 h-4 text-black" />
+                        <User className="w-5 h-5 text-white" />
                     )}
                 </div>
                 <div className="flex-1 min-w-0">
                     <div
-                        className={`inline-block p-3 rounded-lg max-w-full ${
+                        className={`inline-block p-4 rounded-2xl max-w-full shadow-sm ${
                             isBotMessage
-                                ? 'bg-gray-100 text-black'
-                                : 'bg-black text-white'
+                                ? 'bg-white/80 backdrop-blur-sm text-gray-800 border border-gray-200/50'
+                                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
                         }`}
                         dangerouslySetInnerHTML={{ __html: html }}
                     />
                     {isBotMessage && (
                         <button
                             onClick={() => onReadAloud(text)}
-                            className="mt-2 text-xs text-gray-500 hover:text-black flex items-center transition-colors"
+                            className="mt-3 text-xs text-gray-500 hover:text-blue-600 flex items-center transition-colors hover:bg-blue-50 px-2 py-1 rounded-lg"
                         >
                             <Volume2 className="w-3 h-3 mr-1" />
                             {translations[language].readAloud}
@@ -88,53 +90,64 @@ const ChatInterface = ({
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex flex-col">
             {/* Header */}
-            <div className="bg-white shadow-sm border-b border-gray-200 p-4">
+            <div className="bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50 p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-white" />
+                        <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                            <Sparkles className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-black">
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                 {translations[language].appName}
                             </h1>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-600 font-medium">
                                 {translations[language].welcomeChat(userName)}
                             </p>
                         </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3">
                         <button
                             onClick={() => setShowChatHistory(!showChatHistory)}
-                            className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
                         >
                             <History className="w-5 h-5" />
                         </button>
                         <button
                             onClick={() => setLanguage(language === 'en' ? 'ha' : 'en')}
-                            className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-3 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md flex items-center space-x-2"
                         >
                             <Globe className="w-5 h-5" />
+                            <span className="text-sm font-medium">{language === 'en' ? 'HA' : 'EN'}</span>
                         </button>
                     </div>
                 </div>
             </div>
 
             {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 {messages.length === 0 ? (
-                    <div className="text-center py-12">
-                        <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Sparkles className="w-8 h-8 text-white" />
+                    <div className="text-center py-16">
+                        <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <Sparkles className="w-10 h-10 text-white" />
                         </div>
-                        <h3 className="text-lg font-semibold text-black mb-2">
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
                             {translations[language].welcomeChat(userName)}
                         </h3>
-                        <p className="text-gray-500">
+                        <p className="text-gray-600 text-lg max-w-md mx-auto leading-relaxed">
                             {translations[language].chatPrompt}
                         </p>
+                        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                            <div className="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-gray-200/50">
+                                <h4 className="font-semibold text-blue-600 mb-2">🤖 AI & Technology</h4>
+                                <p className="text-sm text-gray-600">Learn about artificial intelligence and modern technology</p>
+                            </div>
+                            <div className="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-gray-200/50">
+                                <h4 className="font-semibold text-purple-600 mb-2">🌍 Bilingual Learning</h4>
+                                <p className="text-sm text-gray-600">Get explanations in both Hausa and English</p>
+                            </div>
+                        </div>
                     </div>
                 ) : (
                     messages.map((message, index) => (
@@ -145,62 +158,62 @@ const ChatInterface = ({
                 )}
 
                 {isLoading && (
-                    <div className="flex items-center space-x-3">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black flex items-center justify-center">
-                            <Sparkles className="w-4 h-4 text-white" />
+                    <div className="flex items-start space-x-4">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center shadow-md">
+                            <Sparkles className="w-5 h-5 text-white" />
                         </div>
-                        <div className="bg-gray-100 p-3 rounded-lg">
-                            <Loader2 className="w-5 h-5 animate-spin text-black" />
+                        <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-sm border border-gray-200/50">
+                            <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
                         </div>
                     </div>
                 )}
             </div>
 
             {/* Action Buttons */}
-            <div className="p-4 bg-white border-t border-gray-200">
-                <div className="flex space-x-2 mb-4">
+            <div className="p-6 bg-white/80 backdrop-blur-md border-t border-gray-200/50">
+                <div className="flex space-x-3 mb-6">
                     <button
                         onClick={onSuggestTopics}
                         disabled={isSuggesting || messages.length === 0}
-                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
                         {isSuggesting ? (
-                            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                            <Loader2 className="w-5 h-5 animate-spin mr-2" />
                         ) : (
-                            <Sparkles className="w-4 h-4 mr-2" />
+                            <Sparkles className="w-5 h-5 mr-2" />
                         )}
                         {translations[language].suggestTopics}
                     </button>
                     <button
                         onClick={onSummarizeChat}
                         disabled={isSummarizing || messages.length === 0}
-                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                        className="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-xl font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
                         {isSummarizing ? (
-                            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                            <Loader2 className="w-5 h-5 animate-spin mr-2" />
                         ) : (
-                            <History className="w-4 h-4 mr-2" />
+                            <History className="w-5 h-5 mr-2" />
                         )}
                         {translations[language].summarizeChat}
                     </button>
                 </div>
 
                 {/* Input Form */}
-                <form onSubmit={handleSubmit} className="flex space-x-2">
+                <form onSubmit={handleSubmit} className="flex space-x-3">
                     <input
                         type="text"
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
                         placeholder={translations[language].inputPlaceholder}
-                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                        className="flex-1 px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/80 backdrop-blur-sm shadow-sm text-lg"
                         disabled={isLoading}
                     />
                     <button
                         type="submit"
                         disabled={isLoading || !inputMessage.trim()}
-                        className="bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
-                        <Send className="w-5 h-5" />
+                        <Send className="w-6 h-6" />
                     </button>
                 </form>
             </div>

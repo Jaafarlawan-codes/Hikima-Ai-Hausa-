@@ -58,7 +58,7 @@ export const translations = {
         newChat: "Sabon Tattaunawa",
         noChatHistory: "Babu tarihin tattaunawa",
         welcomeChat: (name) => `Barka da zuwa ${name}! Ina shirye don taimaka maka koyo game da fasaha da AI.`,
-        chatPrompt: "Zabi batun koyo ko tambaye ni komai.",
+        chatPrompt: "Tambaye ni komai game da fasaha da AI a cikin Hausa ko Turanci.",
         inputPlaceholder: "Tambaye game da fasaha ko AI...",
         voicePrompt: "Danna microphone don magana",
         languageToggle: "Switch to English",

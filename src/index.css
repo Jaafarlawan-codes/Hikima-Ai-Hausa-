@@ -14,8 +14,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
-  color: #000000;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #faf5ff 100%);
+  color: #1f2937;
+  min-height: 100vh;
 }
 
 .message-box {
@@ -89,17 +90,17 @@ input:focus {
 
 /* Chat message animations */
 .chat-message {
-  animation: slideInUp 0.3s ease-out;
+  animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -124,6 +125,36 @@ input:focus {
   margin: 0.25rem 0;
 }
 
+/* Glassmorphism effects */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
+
+/* Enhanced button hover effects */
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(-1px);
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
 /* Responsive design improvements */
 @media (max-width: 640px) {
   .chat-interface {
@@ -136,6 +167,10 @@ input:focus {
   
   .chat-message {
     font-size: 0.9rem;
+  }
+  
+  .backdrop-blur-md {
+    backdrop-filter: blur(8px);
   }
 }
 
